@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -40,6 +41,9 @@ fun StreamScreen(
     onAttachOpenGlView: (OpenGlView) -> Unit = {},
     onStartStreamClick: () -> Unit = {},
     onStopStreamClick: () -> Unit = {},
+    onBeautyClick: () -> Unit = {},
+    onCartoonClick: () -> Unit = {},
+    onBlurClick: () -> Unit = {},
 ) {
     Box(modifier = modifier.fillMaxSize()) {
         AndroidView(
@@ -72,7 +76,6 @@ fun StreamScreen(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
-
             Row(
                 horizontalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier.fillMaxWidth()
@@ -93,6 +96,35 @@ fun StreamScreen(
                     modifier = Modifier.weight(1f)
                 ) {
                     Text("STOP")
+                }
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // 美顏按鈕
+                OutlinedButton(
+                    onClick = onBeautyClick,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("BEAUTY")
+                }
+
+                // 卡通按鈕
+                OutlinedButton(
+                    onClick = onCartoonClick,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("CARTOON")
+                }
+
+                // Blur 按鈕
+                OutlinedButton(
+                    onClick = onBlurClick,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text("BLUR")
                 }
             }
 

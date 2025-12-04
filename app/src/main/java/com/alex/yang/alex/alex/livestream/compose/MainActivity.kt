@@ -15,6 +15,9 @@ import com.alex.yang.alex.alex.livestream.compose.feature.stream.presentation.St
 import com.alex.yang.alex.alex.livestream.compose.feature.stream.presentation.StreamViewModel
 import com.alex.yang.alex.alex.livestream.compose.ui.theme.AlexLiveStreamComposeTheme
 import com.pedro.common.ConnectChecker
+import com.pedro.encoder.input.gl.render.filters.BeautyFilterRender
+import com.pedro.encoder.input.gl.render.filters.BlurFilterRender
+import com.pedro.encoder.input.gl.render.filters.CartoonFilterRender
 import com.pedro.library.rtmp.RtmpCamera2
 import com.pedro.library.view.OpenGlView
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,6 +26,9 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var rtmpCamera2: RtmpCamera2? = null
     private var openGlView: OpenGlView? = null
+    private var isBeautyOn: Boolean = false
+    private var isCartoonOn: Boolean = false
+    private var isBlurOn: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,7 +89,10 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     onStartStreamClick = { startStreamAndCamera(viewModel, state) },
-                    onStopStreamClick = { stopStreamAndCamera(viewModel) }
+                    onStopStreamClick = { stopStreamAndCamera(viewModel) },
+                    onBeautyClick = { toggleBeautyFilter() },
+                    onCartoonClick = { toggleCartoonFilter() },
+                    onBlurClick = { toggleBlurFilter() }
                 )
             }
         }
@@ -148,5 +157,47 @@ class MainActivity : ComponentActivity() {
         }
 
         vm.onStreamStopped()
+    }
+
+    private fun toggleBeautyFilter() {
+        val camera = rtmpCamera2 ?: return
+
+        isBeautyOn = !isBeautyOn
+
+        if (isBeautyOn) {
+            // 套用 BeautyFilterRender
+            camera.glInterface.setFilter(BeautyFilterRender())
+        } else {
+            // 清除所有濾鏡
+            camera.glInterface.clearFilters()
+        }
+    }
+
+    private fun toggleCartoonFilter() {
+        val camera = rtmpCamera2 ?: return
+
+        isCartoonOn = !isCartoonOn
+
+        if (isCartoonOn) {
+            // 套用 CartoonFilterRender
+            camera.glInterface.setFilter(CartoonFilterRender())
+        } else {
+            // 清除所有濾鏡
+            camera.glInterface.clearFilters()
+        }
+    }
+
+    private fun toggleBlurFilter() {
+        val camera = rtmpCamera2 ?: return
+
+        isBlurOn = !isBlurOn
+
+        if (isBlurOn) {
+            // 套用 BlurFilterRender
+            camera.glInterface.setFilter(BlurFilterRender())
+        } else {
+            // 清除所有濾鏡
+            camera.glInterface.clearFilters()
+        }
     }
 }
