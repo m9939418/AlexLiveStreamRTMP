@@ -92,7 +92,8 @@ class MainActivity : ComponentActivity() {
                     onStopStreamClick = { stopStreamAndCamera(viewModel) },
                     onBeautyClick = { toggleBeautyFilter() },
                     onCartoonClick = { toggleCartoonFilter() },
-                    onBlurClick = { toggleBlurFilter() }
+                    onBlurClick = { toggleBlurFilter() },
+                    onSwitchCameraClick = { switchCamera() }
                 )
             }
         }
@@ -198,6 +199,16 @@ class MainActivity : ComponentActivity() {
         } else {
             // 清除所有濾鏡
             camera.glInterface.clearFilters()
+        }
+    }
+
+    private fun switchCamera() {
+        val camera = rtmpCamera2 ?: return
+
+        try {
+            camera.switchCamera()
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 }
